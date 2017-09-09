@@ -12,6 +12,12 @@ const path = require('path');
 const FILE_UPLOAD_ERROR = 420;
 const FILE_SAVE_DB_ERROR = 421;
 const PERSONNEL_SAVE_DB_ERROR = 422;
+const PERSONNEL_QUERY_DB_ERROR = 423;
+const PERSONNEL_NOT_FOUND_ERROR = 424;
+const PERSONNEL_UNSET_DATA_ERROR = 425;
+const PERSONNEL_SET_DATA_ERROR = 426;
+const DOCUMENT_QUERY_DB_ERROR = 427;
+const DOCUMENT_NOT_FOUND_ERROR = 428;
 
 console.log('===> app is running in "' ,env , '" mode');
 
@@ -35,6 +41,8 @@ let configs = {
 
 
 module.exports = {
+
+    host: configs[env].host,
     db_name: configs[env].db_name,
     db_uri: configs[env].db_uri,
     isProd,
@@ -44,5 +52,11 @@ module.exports = {
     downloadPath: configs[env].host + configs[env].downloadFolder,
     FILE_UPLOAD_ERROR,
     FILE_SAVE_DB_ERROR,
-    PERSONNEL_SAVE_DB_ERROR
+    PERSONNEL_SAVE_DB_ERROR,
+    PERSONNEL_QUERY_DB_ERROR,
+    PERSONNEL_NOT_FOUND_ERROR,
+    PERSONNEL_UNSET_DATA_ERROR,
+    PERSONNEL_SET_DATA_ERROR,
+    DOCUMENT_QUERY_DB_ERROR,
+    DOCUMENT_NOT_FOUND_ERROR
 };

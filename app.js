@@ -1,3 +1,5 @@
+
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -7,14 +9,17 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var user = require('./routes/user');
-var scan = require('./routes/scan');
+var document = require('./routes/document');
 var personnel = require('./routes/personnel');
+var dashboard = require('./routes/dashboard');
+var statistics = require('./routes/statistics');
+var reports = require('./routes/reports');
 
 var app = express();
 
 var {mongoose} = require('./db');
 
-// view engine setup
+ // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -26,22 +31,24 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-/*
+//todo: investigate!!!
 app.use((req, res, next) => {
 
     res.header("Access-Control-Allow-Methods", "POST, PUT, OPTIONS, DELETE, GET");
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", "http://localhost:4200");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header("Access-Control-Allow-Credentials", true);
 
     next();
 });
-*/
 
 app.use('/', index);
 app.use('/users', user);
-app.use('/api/scans', scan);
+app.use('/api/document', document);
 app.use('/api/personnel', personnel );
+app.use('/api/dashboard', dashboard );
+app.use('/api/statistics', statistics );
+app.use('/api/reports', reports );
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
