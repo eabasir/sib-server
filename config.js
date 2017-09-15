@@ -18,6 +18,7 @@ const PERSONNEL_UNSET_DATA_ERROR = 425;
 const PERSONNEL_SET_DATA_ERROR = 426;
 const DOCUMENT_QUERY_DB_ERROR = 427;
 const DOCUMENT_NOT_FOUND_ERROR = 428;
+const EXCEL_WRITE_ERROR = 429;
 
 console.log('===> app is running in "' ,env , '" mode');
 
@@ -27,14 +28,18 @@ let configs = {
         "db_name": "Sib",
         "db_uri": "mongodb://127.0.0.1:27017/Sib",
         "uploadFolder": "public/documents",
+        "exportFolder": "public/exports",
         "downloadFolder": "/documents",
+        "downloadExportFolder": "/exports",
     },
     "production": {
         // "host": "localhost:3000",
         "db_name": "Sib-Test",
         "db_uri": process.env.MONGODB_URI,
         "uploadFolder": "public/documents",
-        "downloadFolder": "/documents"
+        "exportFolder": "public/exports",
+        "downloadFolder": "/documents",
+        "downloadExportFolder": "/exports",
     }
 
 };
@@ -50,6 +55,8 @@ module.exports = {
     isTest,
     uploadFolder: path.join(__dirname, configs[env].uploadFolder),
     downloadPath: configs[env].host + configs[env].downloadFolder,
+    exportFolder: path.join(__dirname, configs[env].exportFolder),
+    exportDownloadPath: configs[env].host + configs[env].downloadExportFolder,
     FILE_UPLOAD_ERROR,
     FILE_SAVE_DB_ERROR,
     PERSONNEL_SAVE_DB_ERROR,
@@ -58,5 +65,6 @@ module.exports = {
     PERSONNEL_UNSET_DATA_ERROR,
     PERSONNEL_SET_DATA_ERROR,
     DOCUMENT_QUERY_DB_ERROR,
-    DOCUMENT_NOT_FOUND_ERROR
+    DOCUMENT_NOT_FOUND_ERROR,
+    EXCEL_WRITE_ERROR
 };

@@ -12,76 +12,94 @@ var async = require('async');
 router.get('/company-education', function (req, res, next) {
 
 
-    let result = {};
-    let serve_place_query_boj = {};
+    this.getReports().then(result =>{
 
-    serve_place_query_boj[MODEL_NAMES.serve_place + '.value'] = {$ne: ''};
+        res.json(result);
 
-    Personnel.find(serve_place_query_boj).then((personnel) => {
+    }).catch(obj =>{
+        sendError(res, obj.Error, obj.Error_Code)
+    })
+
+});
+
+
+getReports = ()=>{
+
+    return new Promise((resolve, reject) =>{
 
 
         let result = {};
+        let serve_place_query_boj = {};
 
-        let labels = [];
-        personnel.forEach(p => {
-            labels.push(p.toObject()[MODEL_NAMES.serve_place].value);
-        });
+        serve_place_query_boj[MODEL_NAMES.serve_place + '.value'] = {$ne: ''};
 
-        uniquePlaces = labels.filter(function (elem, pos) {
-            return labels.indexOf(elem) == pos;
-        });
+        Personnel.find(serve_place_query_boj).then((personnel) => {
 
 
-        let educations = [MODEL_NAMES.under_diploma,
-            MODEL_NAMES.above_diploma,
-            MODEL_NAMES.diploma,
-            MODEL_NAMES.Bsc,
-            MODEL_NAMES.Msc,
-            MODEL_NAMES.phd];
+            let result = {};
+
+            let labels = [];
+            personnel.forEach(p => {
+                labels.push(p.toObject()[MODEL_NAMES.serve_place].value);
+            });
+
+            uniquePlaces = labels.filter(function (elem, pos) {
+                return labels.indexOf(elem) == pos;
+            });
 
 
-        let promises = [];
+            let educations = [MODEL_NAMES.under_diploma,
+                MODEL_NAMES.above_diploma,
+                MODEL_NAMES.diploma,
+                MODEL_NAMES.Bsc,
+                MODEL_NAMES.Msc,
+                MODEL_NAMES.phd];
 
-        uniquePlaces.forEach(place => {
 
-            result[place] ={};
+            let promises = [];
 
-            educations.forEach(education => {
+            uniquePlaces.forEach(place => {
 
-                promises.push(new Promise((resolve, reject)  =>{
+                result[place] ={};
 
-                    let query_obj = {};
-                    query_obj[MODEL_NAMES.education + '.value'] = education;
-                    query_obj[MODEL_NAMES.serve_place + '.value'] = place;
+                educations.forEach(education => {
 
-                    Personnel.find(query_obj).count((err, count) => {
+                    promises.push(new Promise((resolve, reject)  =>{
 
-                       result[place][education] = count;
-                        resolve();
+                        let query_obj = {};
+                        query_obj[MODEL_NAMES.education + '.value'] = education;
+                        query_obj[MODEL_NAMES.serve_place + '.value'] = place;
 
-                    }).catch(err => {
-                        console.error(err);
-                        result[place][education] = 0;
-                        resolve();
-                    });
-                }));
+                        Personnel.find(query_obj).count((err, count) => {
+
+                            result[place][education] = count;
+                            resolve();
+
+                        }).catch(err => {
+                            console.error(err);
+                            result[place][education] = 0;
+                            resolve();
+                        });
+                    }));
+
+                });
 
             });
 
-        });
+            Promise.all(promises).then(() => {
+                resolve(result);
+            }).catch(err => {
+                console.error(err);
+                reject({Error: err, Error_Code: config.PERSONNEL_QUERY_DB_ERROR});
+            });
 
-        Promise.all(promises).then(() => {
-                res.json(result);
         }).catch(err => {
-            sendError(res, err, config.PERSONNEL_QUERY_DB_ERROR)
+            console.error(err);
+            reject({Error: err, Error_Code: config.PERSONNEL_QUERY_DB_ERROR});
         });
-
-    }).catch(err => {
-        console.error(err);
-        sendError(res, err, config.PERSONNEL_QUERY_DB_ERROR)
     });
 
-});
+};
 
 
 function sendError(res, err, error_code) {
@@ -90,4 +108,8 @@ function sendError(res, err, error_code) {
         error: err.code ? err.code : err
     });
 }
-module.exports = router;
+module.exports = {
+    router,
+    getReports
+
+};

@@ -14,6 +14,7 @@ var personnel = require('./routes/personnel');
 var dashboard = require('./routes/dashboard');
 var statistics = require('./routes/statistics');
 var reports = require('./routes/reports');
+var exports = require('./routes/exports');
 
 var app = express();
 
@@ -47,8 +48,9 @@ app.use('/users', user);
 app.use('/api/document', document);
 app.use('/api/personnel', personnel );
 app.use('/api/dashboard', dashboard );
-app.use('/api/statistics', statistics );
-app.use('/api/reports', reports );
+app.use('/api/statistics', statistics.router);
+app.use('/api/reports', reports.router );
+app.use('/api/exports', exports);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -5,10 +5,17 @@ var jmoment = require('jalali-moment');
 var moment = require('moment');
 
 
+getTimeNow =()=>{
+
+  return moment().format('HH-mm-ss');
+
+};
+
 getGregorianNow = () => {
 
     return moment().utc().format();
 };
+
 
 getJalaliNow = () => {
     let gNow = jmoment();
@@ -94,6 +101,7 @@ convertJalaliToUTCGregorian = (jalali) => {
 };
 
 module.exports = {
+    getTimeNow,
     getGregorianNow,
     getJalaliNow,
     getJalaliStartOfMonth,
