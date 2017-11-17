@@ -308,7 +308,6 @@ router.delete('/:document_id', function (req, res, next) {
 
     console.log('id ===> ', req.params.document_id);
 
-    Personnel.update
 
     Document.findByIdAndRemove(req.params.document_id).then(document => {
         if (!document) {
