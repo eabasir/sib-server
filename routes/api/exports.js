@@ -1,9 +1,9 @@
-const {Personnel} = require('../db/models/personnel');
-const config = require('../config');
+const {Personnel} = require('../../db/models/personnel');
+const config = require('../../config');
 var express = require('express');
 var router = express.Router();
-const {MODEL_NAMES} = require('../db/models/names');
-const date = require('../utils/date');
+const {MODEL_NAMES} = require('../../db/models/names');
+const date = require('../../utils/date');
 const Excel = require('exceljs');
 const path = require('path');
 let fs = require('fs');
@@ -11,6 +11,11 @@ let mkdirp = require('mkdirp');
 
 let sattistics = require('./statistics');
 let reports = require('./reports');
+const isAuthenticated = require('../checkAuthentication');
+
+router.use( isAuthenticated, function (req, res, next) {
+  next();
+});
 
 /**
  * this middle ware is used to check and create exports folder

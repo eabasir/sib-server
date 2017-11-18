@@ -1,16 +1,19 @@
-const {Personnel} = require('../db/models/personnel');
-const config = require('../config');
+const {Personnel} = require('../../db/models/personnel');
+const config = require('../../config');
 var express = require('express');
 var router = express.Router();
-const {MODEL_NAMES} = require('../db/models/names');
+const {MODEL_NAMES} = require('../../db/models/names');
 
+const isAuthenticated = require('../checkAuthentication');
 
+router.use( isAuthenticated, function (req, res, next) {
+  next();
+});
 
 /**
  * get specific personnel by id
  */
 router.get('/:personnel_id', function (req, res, next) {
-
 
     Personnel.findById(req.params.personnel_id).then(personnel => {
 

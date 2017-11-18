@@ -1,13 +1,18 @@
 /**
  * Created by user on 8/27/2017.
  */
-const {Personnel} = require('../db/models/personnel');
-const config = require('../config');
-var express = require('express');
-var router = express.Router();
-const {MODEL_NAMES} = require('../db/models/names');
-const date = require('../utils/date');
-var async = require('async');
+const {Personnel} = require('../../db/models/personnel');
+const config = require('../../config');
+const express = require('express');
+const router = express.Router();
+const {MODEL_NAMES} = require('../../db/models/names');
+const date = require('../../utils/date');
+const async = require('async');
+const isAuthenticated = require('../checkAuthentication');
+
+router.use( isAuthenticated, function (req, res, next) {
+  next();
+});
 
 router.get('/company-education', function (req, res, next) {
 

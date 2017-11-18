@@ -1,23 +1,29 @@
 let express = require('express');
 let router = express.Router();
-const config = require('../config');
+const config = require('../../config');
 const path = require('path');
 let fs = require('fs');
 let mkdirp = require('mkdirp');
-
 let jmoment = require('jalali-moment');
+const isAuthenticated = require('../checkAuthentication');
 
 
 const multer = require('multer');
 const moment = require('moment');
-const {Document} = require('../db/models/document');
-const {Personnel} = require('../db/models/personnel');
-const {MODEL_NAMES} = require('../db/models/names');
+const {Document} = require('../../db/models/document');
+const {Personnel} = require('../../db/models/personnel');
+const {MODEL_NAMES} = require('../../db/models/names');
 
 let current_upload_path;
 let storage;
 let upload;
 let current_sub_folder;
+
+
+router.use( isAuthenticated, function (req, res, next) {
+  next();
+});
+
 
 /**
  * this middle ware is used to check and create current upload folder
