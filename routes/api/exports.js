@@ -11,7 +11,7 @@ let mkdirp = require('mkdirp');
 
 let sattistics = require('./statistics');
 let reports = require('./reports');
-const isAuthenticated = require('../checkAuthentication');
+const isAuthenticated = require('./checkAuthentication');
 
 router.use( isAuthenticated, function (req, res, next) {
   next();

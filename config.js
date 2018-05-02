@@ -32,6 +32,10 @@ let configs = {
     "exportFolder": "public/exports",
     "downloadFolder": "/documents",
     "downloadExportFolder": "/exports",
+    "mongoHost":"localhost",
+    "mongoPort":27017,
+    "sessionDbName": "sessionDb",
+    "sessionCollectionName" : "sessions"
   },
   "production": {
     // "host": "localhost:3000",
@@ -41,6 +45,11 @@ let configs = {
     "exportFolder": "public/exports",
     "downloadFolder": "/documents",
     "downloadExportFolder": "/exports",
+    "mongoHost":"localhost",
+    "mongoPort":27017,
+    "sessionDbName": "sessionDb",
+    "sessionCollectionName" : "sessions"
+
   }
 
 };
@@ -58,6 +67,10 @@ module.exports = {
   downloadPath: configs[env].host + configs[env].downloadFolder,
   exportFolder: path.join(__dirname, configs[env].exportFolder),
   exportDownloadPath: configs[env].host + configs[env].downloadExportFolder,
+  mongoHost: configs[env].mongoHost,
+  mongoPort: configs[env].mongoPort,
+  sessionDbName: configs[env].sessionDbName,
+  sessionCollectionName: configs[env].sessionCollectionName,
   FILE_UPLOAD_ERROR,
   FILE_SAVE_DB_ERROR,
   PERSONNEL_SAVE_DB_ERROR,

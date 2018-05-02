@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 const {MODEL_NAMES} = require('../../db/models/names');
 
-const isAuthenticated = require('../checkAuthentication');
+const isAuthenticated = require('./checkAuthentication');
 
 router.use( isAuthenticated, function (req, res, next) {
   next();

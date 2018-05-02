@@ -8,7 +8,7 @@ const express = require('express');
 const router = express.Router();
 const {MODEL_NAMES} = require('../../db/models/names');
 const date = require('../../utils/date');
-const isAuthenticated = require('../checkAuthentication');
+const isAuthenticated = require('./checkAuthentication');
 
 router.use( isAuthenticated, function (req, res, next) {
   next();

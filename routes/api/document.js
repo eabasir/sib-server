@@ -5,7 +5,7 @@ const path = require('path');
 let fs = require('fs');
 let mkdirp = require('mkdirp');
 let jmoment = require('jalali-moment');
-const isAuthenticated = require('../checkAuthentication');
+const isAuthenticated = require('./checkAuthentication');
 
 
 const multer = require('multer');
